@@ -46,6 +46,7 @@ class Assembler:
                 outfile.write(Parser.parse_A(self, i)+'\n') 
         outfile.close()     
 
+
 class Parser:
     def Advance(file_name):
         raw_asm_file = open(file_name)
@@ -53,15 +54,16 @@ class Parser:
         raw_asm_file.close()
         lines = asm_lines.splitlines()
         asm_list = []
+
         for l in lines:
             l_nospace = l.replace(' ', '')
-            #if l[:2] != '//' and l != '' and l[:1] != '(':
             if l[:2] != '//' and l != '': 
                 comment_num = l_nospace.find('//') 
                 if comment_num == -1:
                     asm_list.append(l_nospace)
                 else:
                     asm_list.append(l_nospace[:comment_num])
+
         return asm_list
         
     def commandType(mnemonic):
@@ -75,18 +77,21 @@ class Parser:
     def parse_A(self, mnemonic):
         self.mnemonic = mnemonic
         symbol = mnemonic[1:]
+
         return SymbolTable.symbol(self, symbol)  
 
     def parse_C(mnemonic):
         dest_bit = ''
         comp_bit = ''
         jump_bit = ''
+
         if '=' in mnemonic:
             dest_bit, comp_bit = mnemonic.split('=')
             if ';' in comp_bit:
                 comp_bit, jump_bit = comp_bit.split(';')
         elif ';' in mnemonic:
             comp_bit, jump_bit = mnemonic.split(';')
+
         d_bit = Code.dest(dest_bit)
         c_bit = Code.comp(comp_bit)
         j_bit = Code.jump(jump_bit)
@@ -136,6 +141,7 @@ class Code:
             a_bit = '1'
             mnemonic = mnemonic.replace('M', 'A')
         c_bit = comp_dict.get(mnemonic, '000000')
+
         return a_bit + c_bit 
 
 
