@@ -36,13 +36,13 @@ class Assembler:
 
         for i in asm_lists:
             if Parser.commandType(i) == 'C_COMMAND':
-                print(Parser.parse_C(i))
+                #print(Parser.parse_C(i))
                 outfile.write(Parser.parse_C(i) + '\n')
             elif Parser.commandType(i) == 'A_COMMAND':
                 if i[1:] not in symbolTable.keys():
                     symbolTable[i[1:]] = val_sym
                     val_sym += 1
-                print(Parser.parse_A(self, i))
+                #print(Parser.parse_A(self, i))
                 outfile.write(Parser.parse_A(self, i)+'\n') 
         outfile.close()     
 
